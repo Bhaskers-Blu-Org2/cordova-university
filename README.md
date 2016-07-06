@@ -1,7 +1,7 @@
 # cordova-university
 A collection of presentations and tutorials for developers working with the open source Apache Cordova project. From the Microsoft Visual Studio Tools for Apache Cordova (TACO) team.
 
-## Presentations from 2016\
+## Presentations from 2016
 ### Build mobile apps for iOS, Android, and Windows using JavaScript
 [ [Presentation](https://github.com/Microsoft/cordova-university/blob/master/Presentations/2016/build%20mobile%20apps%20using%20JavaScript/build%20mobile%20apps%20using%20JavaScript.PPTX?raw=true) ]
 
