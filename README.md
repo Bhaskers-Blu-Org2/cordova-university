@@ -7,6 +7,11 @@ A collection of presentations and tutorials for developers working with the open
 
 This presentation is a basic intro to Apache Cordova, Visual Studio TACO, and the VS Code Cordova Tools extension.
 
+### Creating the ideal Cordova dev environment
+[ [Presentation](http://www.slideshare.net/RyanJSalva/phonegap-day-2016-eu-creating-the-ideal-cordova-dev-environment) ][ [Recording](https://www.youtube.com/watch?v=a0dylTDZDG4) ] [ [Blog post](http://ryanjsalva.com/2016/05/15/cordova-dev-environment.html) ]
+
+Geek out over strategies for managing Node + NPM, customizing the command line with bash scripts, tricking out your code editor with plugins, optimizing your edit/preview/debug development loop, choosing devices for your hardware library, and streamlining deployment with continuous integration/release.
+
 ### Cross-Platform Mobile with Cordova and Ionic Framework
 [ [Presentation](https://github.com/Microsoft/cordova-university/blob/master/Presentations/2016/cross%20platform%20mobile%20with%20Cordova%20and%20Ionic/cross%20platform%20mobile%20with%20Cordova%20and%20Ionic.pptx?raw=true) ] [ [Recording](https://channel9.msdn.com/Events/Build/2016/B835) ]
 
