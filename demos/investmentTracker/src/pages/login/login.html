@@ -1,0 +1,23 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Login</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-list>
+    <div class="logo">
+      <img src="assets/img/appicon.svg">
+    </div>
+      <div class="imageStyling">
+          <img src="assets/img/facebook.png" (click)="onLogin('facebook')" />
+          <img src="assets/img/twitter.png" (click)="onLogin('twitter')" />
+          <img src="assets/img/googleplus.png" (click)="onLogin('google')" />
+      </div>
+  </ion-list>
+
+</ion-content>
