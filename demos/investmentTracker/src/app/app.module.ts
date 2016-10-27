@@ -9,7 +9,6 @@ import { AboutPage } from '../pages/about/about';
 import { PopoverPage } from '../pages/about-popover/about-popover';
 import { AccountPage } from '../pages/account/account';
 import { LoginPage } from '../pages/login/login';
-import { MapPage } from '../pages/map/map';
 import { AccountsPage } from '../pages/accounts/accounts';
 import { AddAccountModal } from '../pages/add-account-modal/add-account';
 import { ScheduleFilterPage } from '../pages/schedule-filter/schedule-filter';
@@ -28,7 +27,6 @@ import { UserData } from '../providers/user-data';
     AboutPage,
     AccountPage,
     LoginPage,
-    MapPage,
     PopoverPage,
     AccountsPage,
     AddAccountModal,
@@ -48,7 +46,6 @@ import { UserData } from '../providers/user-data';
     AboutPage,
     AccountPage,
     LoginPage,
-    MapPage,
     PopoverPage,
     AccountsPage,
     AddAccountModal,
