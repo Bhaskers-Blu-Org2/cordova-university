@@ -9,12 +9,24 @@
 log.txt
 *.sublime-project
 *.sublime-workspace
+<<<<<<< HEAD
 
 .vscode/
 .idea/
 .sass-cache/
 .versions/
 coverage/
+=======
+.vscode/
+npm-debug.log*
+
+.idea/
+.sass-cache/
+.tmp/
+.versions/
+coverage/
+dist/
+>>>>>>> 13df8d7d6c41a96b697c93b61f1bd059e8785a4e
 node_modules/
 tmp/
 temp/
@@ -23,7 +35,10 @@ platforms/
 plugins/
 plugins/android.json
 plugins/ios.json
+<<<<<<< HEAD
 www/build/
+=======
+>>>>>>> 13df8d7d6c41a96b697c93b61f1bd059e8785a4e
 $RECYCLE.BIN/
 
 .DS_Store
