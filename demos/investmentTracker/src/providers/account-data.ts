@@ -29,7 +29,7 @@ export class AccountData {
         });
     } else {
       if (!this.azureAppService) {
-        this.azureAppService = new WindowsAzure.MobileServiceClient("http://tacoinvestmenttracker.azurewebsites.net");
+        this.azureAppService = new WindowsAzure.MobileServiceClient("https://tacoinvestmenttracker.azurewebsites.net");
       }
     }
     
