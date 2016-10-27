@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 
 import { NavController, NavParams } from 'ionic-angular';
 
-import { SessionDetailPage } from '../session-detail/session-detail';
+import { AccountDetailPage } from '../account-detail/account-detail';
 
 
 @Component({
@@ -17,6 +17,6 @@ export class SpeakerDetailPage {
   }
 
   goToSessionDetail(session) {
-    this.navCtrl.push(SessionDetailPage, session);
+    this.navCtrl.push(AccountDetailPage, session);
   }
 }

@@ -1,29 +1,22 @@
 import { Component, ViewChild } from '@angular/core';
 
 import { AlertController, App, ItemSliding, List, ModalController, NavController } from 'ionic-angular';
-
-/*
-  To learn how to use third party libs in an
-  Ionic app check out our docs here: http://ionicframework.com/docs/v2/resources/third-party-libs/
-*/
-import moment from 'moment';
-
-import { ConferenceData } from '../../providers/conference-data';
+import { AccountData } from '../../providers/account-data';
+import { AddAccountModal} from '../add-account-modal/add-account';
 import { ScheduleFilterPage } from '../schedule-filter/schedule-filter';
-import { SessionDetailPage } from '../session-detail/session-detail';
+import { AccountDetailPage } from '../account-detail/account-detail';
 import { UserData } from '../../providers/user-data';
 
-
 @Component({
-  selector: 'page-schedule',
-  templateUrl: 'schedule.html'
+  selector: 'page-accounts',
+  templateUrl: 'accounts.html'
 })
-export class SchedulePage {
+export class AccountsPage {
   // the list is a child of the schedule page
-  // @ViewChild('scheduleList') gets a reference to the list
-  // with the variable #scheduleList, `read: List` tells it to return
+  // @ViewChild('accountList') gets a reference to the list
+  // with the variable #accountList, `read: List` tells it to return
   // the List and not a reference to the element
-  @ViewChild('scheduleList', {read: List}) scheduleList: List;
+  @ViewChild('accountList', { read: List }) accountList: List;
 
   dayIndex = 0;
   queryText = '';
@@ -31,53 +24,53 @@ export class SchedulePage {
   excludeTracks = [];
   shownSessions: any = [];
   groups = [];
-  confDate: string;
 
   constructor(
     public alertCtrl: AlertController,
     public app: App,
     public modalCtrl: ModalController,
     public navCtrl: NavController,
-    public confData: ConferenceData,
+    public confData: AccountData,
     public user: UserData
   ) {
 
   }
 
   ionViewDidEnter() {
-    this.app.setTitle('Schedule');
+    this.app.setTitle('Accounts');
   }
 
   ngAfterViewInit() {
-    this.updateSchedule();
+    this.updateAccounts();
   }
 
   doRefresh(refresher) {
-      console.log('Begin async operation', refresher);
+    console.log('Begin async operation', refresher);
 
-      this.user.syncFavorites();
+    //this.user.syncFavorites();
 
-      setTimeout(() => {
-          console.log('Async operation has ended');
-          refresher.complete();
-      }, 2000);
+    setTimeout(() => {
+      console.log('Async operation has ended');
+      refresher.complete();
+    }, 2000);
   }
 
-  updateSchedule() {
+  updateAccounts() {
     // Close any open sliding items when the schedule updates
-    this.scheduleList && this.scheduleList.closeSlidingItems();
+    this.accountList && this.accountList.closeSlidingItems();
 
     this.confData.getTimeline(this.dayIndex, this.queryText, this.excludeTracks, this.segment).then(data => {
-      let timestamp = data.date;
 
-      /*
-        To learn how to use third party libs in an
-        Ionic app check out our docs here: http://ionicframework.com/docs/v2/resources/third-party-libs/
-      */
-      this.confDate = moment(timestamp).format('MM/DD/YYYY');
       this.shownSessions = data.shownSessions;
       this.groups = data.groups;
     });
+  }
+
+  addAccount() {
+    let modal = this.modalCtrl.create(AddAccountModal);
+    modal.present();
+
+    // TODO: Handle dismissal of modal
   }
 
   presentFilter() {
@@ -87,7 +80,7 @@ export class SchedulePage {
     modal.onDidDismiss((data: any[]) => {
       if (data) {
         this.excludeTracks = data;
-        this.updateSchedule();
+        this.updateAccounts();
       }
     });
 
@@ -96,7 +89,7 @@ export class SchedulePage {
   goToSessionDetail(sessionData) {
     // go to the session detail page
     // and pass in the session data
-    this.navCtrl.push(SessionDetailPage, sessionData);
+    this.navCtrl.push(AccountDetailPage, sessionData);
   }
 
   addFavorite(slidingItem: ItemSliding, sessionData) {
@@ -145,7 +138,7 @@ export class SchedulePage {
           handler: () => {
             // they want to remove this session from their favorites
             this.user.removeFavorite(sessionData.name);
-            this.updateSchedule();
+            this.updateAccounts();
 
             // close the sliding item and hide the option buttons
             slidingItem.close();

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { ConferenceData } from '../../providers/conference-data';
+import { AccountData } from '../../providers/account-data';
 
 declare var google: any;
 
@@ -9,7 +9,7 @@ declare var google: any;
   templateUrl: 'map.html'
 })
 export class MapPage {
-  constructor(public confData: ConferenceData) {}
+  constructor(public confData: AccountData) {}
 
   ionViewDidLoad() {
     this.confData.getMap().then(mapData => {

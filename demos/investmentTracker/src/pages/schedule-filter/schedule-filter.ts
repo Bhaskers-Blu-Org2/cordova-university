@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 
 import { NavParams, ViewController } from 'ionic-angular';
 
-import { ConferenceData } from '../../providers/conference-data';
+import { AccountData } from '../../providers/account-data';
 
 
 @Component({
@@ -13,7 +13,7 @@ export class ScheduleFilterPage {
   tracks: Array<{name: string, isChecked: boolean}> = [];
 
   constructor(
-    public confData: ConferenceData,
+    public confData: AccountData,
     public navParams: NavParams,
     public viewCtrl: ViewController
   ) {

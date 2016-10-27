@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { PopoverController, ViewController, AlertController } from 'ionic-angular';
+import { PopoverController, AlertController } from 'ionic-angular';
 import {CodePushUpdate} from '../../providers/codepush-update';
 
 

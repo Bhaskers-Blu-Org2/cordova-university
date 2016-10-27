@@ -4,10 +4,10 @@ import { NavParams } from 'ionic-angular';
 
 
 @Component({
-  selector: 'page-session-detail',
-  templateUrl: 'session-detail.html'
+  selector: 'page-account-detail',
+  templateUrl: 'account-detail.html'
 })
-export class SessionDetailPage {
+export class AccountDetailPage {
   session: any;
 
   constructor(public navParams: NavParams) {

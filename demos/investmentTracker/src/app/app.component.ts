@@ -7,7 +7,7 @@ import { AccountPage } from '../pages/account/account';
 import { LoginPage } from '../pages/login/login';
 import { SignupPage } from '../pages/signup/signup';
 import { TabsPage } from '../pages/tabs/tabs';
-import { ConferenceData } from '../providers/conference-data';
+import { AccountData } from '../providers/account-data';
 import { UserData } from '../providers/user-data';
 
 export interface PageObj {
@@ -50,16 +50,17 @@ export class ConferenceApp {
     public userData: UserData,
     public menu: MenuController,
     platform: Platform,
-    private confData: ConferenceData
+    private confData: AccountData
   ) {
     // Call any initial plugins when ready
     platform.ready().then(() => {
       // StatusBar.styleDefault();
       // Splashscreen.hide();
+      // load the conference data
+      console.log("trying to load");
+      confData.load();
     });
 
-    // load the conference data
-    confData.load();
 
     // decide which menu items should be hidden by current login status stored in local storage
     this.userData.hasLoggedIn().then((hasLoggedIn) => {
@@ -101,9 +102,9 @@ export class ConferenceApp {
       this.enableMenu(false);
     });
 
-    this.events.subscribe('favs:sync', () => {
-        this.confData.load();
-    });
+    // this.events.subscribe('favs:sync', () => {
+    //     this.confData.load();
+    // });
   }
 
   enableMenu(loggedIn) {

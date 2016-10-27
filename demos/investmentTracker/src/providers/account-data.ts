@@ -6,29 +6,50 @@ import { UserData } from './user-data';
 
 
 @Injectable()
-export class ConferenceData {
+export class AccountData {
   data: any;
+  azureAppService: Microsoft.WindowsAzure.MobileServiceClient;
 
-  constructor(public http: Http, public user: UserData) {}
+  constructor(public http: Http,
+    public user: UserData) {
+  }
 
-  load() {
-    if (this.data) {
-      // already loaded data
-      return Promise.resolve(this.data);
+  load(): any {
+    if (typeof(WindowsAzure) == "undefined") {
+      return new Promise(resolve => {
+        // We're using Angular Http provider to request the data,
+        // then on the response it'll map the JSON data to a parsed JS object.
+        // Next we process the data and resolve the promise with the new data.
+        this.http.get('assets/data/data.json').subscribe(res => {
+          // we've got back the raw data, now generate the core schedule data
+          // and save the data for later reference
+          this.data = this.processData(res.json());
+          resolve(this.data);
+        });
+        });
+    } else {
+      if (!this.azureAppService) {
+        this.azureAppService = new WindowsAzure.MobileServiceClient("http://tacoinvestmenttracker.azurewebsites.net");
+      }
     }
-
-    // don't have the data yet
-    return new Promise(resolve => {
-      // We're using Angular Http provider to request the data,
-      // then on the response it'll map the JSON data to a parsed JS object.
-      // Next we process the data and resolve the promise with the new data.
-      this.http.get('assets/data/data.json').subscribe(res => {
-        // we've got back the raw data, now generate the core schedule data
-        // and save the data for later reference
-        this.data = this.processData(res.json());
-        resolve(this.data);
-      });
+    
+    let accounts = this.azureAppService.getTable("Accounts");
+    return accounts.read().then((data) => {
+      debugger;
     });
+
+    //// don't have the data yet
+    //return new Promise(resolve => {
+    //  // We're using Angular Http provider to request the data,
+    //  // then on the response it'll map the JSON data to a parsed JS object.
+    //  // Next we process the data and resolve the promise with the new data.
+    //  this.http.get('assets/data/data.json').subscribe(res => {
+    //    // we've got back the raw data, now generate the core schedule data
+    //    // and save the data for later reference
+    //    this.data = this.processData(res.json());
+    //    resolve(this.data);
+    //  });
+    //});
   }
 
   processData(data) {

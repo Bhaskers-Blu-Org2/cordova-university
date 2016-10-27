@@ -3,8 +3,8 @@ import { Component } from '@angular/core';
 import { ActionSheet, ActionSheetController, Config, NavController } from 'ionic-angular';
 // import { InAppBrowser } from 'ionic-native';
 
-import { ConferenceData } from '../../providers/conference-data';
-import { SessionDetailPage } from '../session-detail/session-detail';
+import { AccountData } from '../../providers/account-data';
+import { AccountDetailPage } from '../account-detail/account-detail';
 import { SpeakerDetailPage } from '../speaker-detail/speaker-detail';
 
 
@@ -16,14 +16,14 @@ export class SpeakerListPage {
   actionSheet: ActionSheet;
   speakers = [];
 
-  constructor(public actionSheetCtrl: ActionSheetController, public navCtrl: NavController, public confData: ConferenceData, public config: Config) {
+  constructor(public actionSheetCtrl: ActionSheetController, public navCtrl: NavController, public confData: AccountData, public config: Config) {
     confData.getSpeakers().then(speakers => {
       this.speakers = speakers;
     });
   }
 
   goToSessionDetail(session) {
-    this.navCtrl.push(SessionDetailPage, session);
+    this.navCtrl.push(AccountDetailPage, session);
   }
 
   goToSpeakerDetail(speakerName: string) {

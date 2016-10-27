@@ -4,15 +4,6 @@
       <ion-icon name="menu"></ion-icon>
     </button>
 
-    <ion-segment [(ngModel)]="segment" (ionChange)="updateSchedule()">
-      <ion-segment-button value="all">
-        All
-      </ion-segment-button>
-      <ion-segment-button value="favorites">
-        Favorites
-      </ion-segment-button>
-    </ion-segment>
-
     <ion-buttons end>
       <button ion-button icon-only (click)="presentFilter()">
         <ion-icon ios="ios-options-outline" md="md-options"></ion-icon>
@@ -23,13 +14,16 @@
   <ion-toolbar no-border-top>
     <ion-searchbar color="primary"
                    [(ngModel)]="queryText"
-                   (ionInput)="updateSchedule()"
+                   (ionInput)="updateAccounts()"
                    placeholder="Search">
     </ion-searchbar>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+    <ion-fab right bottom>
+        <button ion-fab color="primary" (click)="addAccount()"><ion-icon name="add"></ion-icon></button>
+    </ion-fab>
     <ion-refresher (ionRefresh)="doRefresh($event)">
         <ion-refresher-content pullingIcon="arrow-dropdown"
                                pullingText="Pull to refresh"
@@ -38,7 +32,7 @@
         </ion-refresher-content>
     </ion-refresher>
 
-  <ion-list #scheduleList [hidden]="shownSessions === 0">
+  <ion-list #accountList [hidden]="shownSessions === 0">
 
     <ion-item-group *ngFor="let group of groups" [hidden]="group.hide">
 
@@ -78,7 +72,7 @@
   </ion-list>
 
   <ion-list-header [hidden]="shownSessions > 0">
-      No Sessions Found
+      No accounts found
   </ion-list-header>
 
 
