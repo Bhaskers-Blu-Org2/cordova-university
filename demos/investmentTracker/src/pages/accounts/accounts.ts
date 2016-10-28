@@ -29,7 +29,7 @@ export class AccountsPage {
     public app: App,
     public modalCtrl: ModalController,
     public navCtrl: NavController,
-    public confData: AccountData,
+    public accountData: AccountData,
     public user: UserData
   ) {
 
@@ -57,7 +57,7 @@ export class AccountsPage {
   updateAccounts() {
     // Close any open sliding items when the schedule updates
     this.accountList && this.accountList.closeSlidingItems();
-    this.confData.getAccounts().then(accounts => this.accounts = accounts);
+    this.accountData.getAccounts().then(accounts => this.accounts = accounts);
   }
 
   addAccount() {
