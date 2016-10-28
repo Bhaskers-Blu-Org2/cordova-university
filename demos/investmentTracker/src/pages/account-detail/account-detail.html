@@ -6,9 +6,9 @@
 
 <ion-content padding>
   <ion-item *ngFor="let investment of investments">
-    Symbol: {{investment.symbol}}
-    Number of Shares: {{investment.Number}}
-    Purchase Price: {{investment.purchasePrice}}
-    Purchase Date: {{investment.purchaseDate}}
+    <h1>{{investment.symbol}}</h1>
+    <p># of Shares: {{investment.numberOfShare}}<p>
+    <p>Purchase Price: {{investment.purchasePrice}}</p>
+    <p>Purchase Date: {{investment.purchaseDate}}</p>
   </ion-item>
 </ion-content>
