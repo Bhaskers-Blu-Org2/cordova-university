@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-
 import { Http } from '@angular/http';
 
+import { Events } from 'ionic-angular';
 import { UserData } from './user-data';
 
 
@@ -11,11 +11,29 @@ export class AccountData {
   azureAppService: Microsoft.WindowsAzure.MobileServiceClient;
 
   constructor(public http: Http,
-    public user: UserData) {
+    public user: UserData,
+    public events: Events) {
+  }
+  getAzureClient() {
+    if (!this.azureAppService) {
+      this.azureAppService = new WindowsAzure.MobileServiceClient('https://tacoinvestmenttracker.azurewebsites.net');
+    }
+    return this.azureAppService;
+  }
+
+  login() {
+    this.getAzureClient().login("aad").done(this.loginResponse.bind(this));
+  }
+
+  private loginResponse(response: Microsoft.WindowsAzure.User) {
+    // this.setUsername(response.userId);
+    // this.userid = response.userId;
+    // this.loggedIn = true;
+    this.events.publish('user:login');
   }
 
   load(): any {
-    if (typeof(WindowsAzure) == "undefined") {
+    if (typeof (WindowsAzure) == "undefined") {
       return new Promise(resolve => {
         // We're using Angular Http provider to request the data,
         // then on the response it'll map the JSON data to a parsed JS object.
@@ -26,14 +44,10 @@ export class AccountData {
           this.data = this.processData(res.json());
           resolve(this.data);
         });
-        });
-    } else {
-      if (!this.azureAppService) {
-        this.azureAppService = new WindowsAzure.MobileServiceClient("https://tacoinvestmenttracker.azurewebsites.net");
-      }
-    }
-    
-    let accounts = this.azureAppService.getTable("Accounts");
+      });
+    } 
+
+    let accounts = this.getAzureClient().getTable("Accounts");
     return accounts.read().then((data) => {
       debugger;
     });
@@ -50,6 +64,14 @@ export class AccountData {
     //    resolve(this.data);
     //  });
     //});
+  }
+
+  addAccount(account: any) {
+    let newAccount = {
+      "name": account.name,
+      "type": account.type
+    };
+    return this.azureAppService.getTable("Accounts").insert(newAccount);
   }
 
   processData(data) {

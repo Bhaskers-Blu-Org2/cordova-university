@@ -30,7 +30,7 @@ export class ConferenceApp {
   // the left menu only works after login
   // the login page disables the left menu
   appPages: PageObj[] = [
-    { title: 'Schedule', component: TabsPage, icon: 'calendar' },
+    { title: 'Accounts', component: TabsPage, icon: 'calendar' },
     { title: 'Speakers', component: TabsPage, index: 1, icon: 'contacts' },
     { title: 'About', component: TabsPage, index: 3, icon: 'information-circle' },
   ];
@@ -43,6 +43,7 @@ export class ConferenceApp {
     { title: 'Signup', component: SignupPage, icon: 'person-add' }
   ];
   rootPage: any = TabsPage;
+  // rootPage: any = LoginPage;
 
   constructor(
     public events: Events,
@@ -55,9 +56,7 @@ export class ConferenceApp {
     platform.ready().then(() => {
       // StatusBar.styleDefault();
       // Splashscreen.hide();
-      // load the conference data
-      console.log("trying to load");
-      confData.load();
+      confData.login();
     });
 
 

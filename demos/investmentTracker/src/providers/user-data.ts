@@ -34,7 +34,7 @@ export class UserData {
   }
 
   login(provider: string) {
-      this.client = new WindowsAzure.MobileServiceClient('https://build2016-vsmobile.azurewebsites.net/');
+      this.client = new WindowsAzure.MobileServiceClient('https://tacoinvestmenttracker.azurewebsites.net');
       this.client.login(provider).done(this.loginResponse.bind(this));
   }
 
@@ -43,7 +43,6 @@ export class UserData {
       this.userid = response.userId;
       this.loggedIn = true;
       this.events.publish('user:login');
-      this.syncFavorites();
   }
 
   signup(name: string) {

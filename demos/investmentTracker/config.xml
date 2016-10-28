@@ -7,7 +7,7 @@
   <author email="vscordovatools@microsoft.com" href="http://taco.visualstudio.com/">&#xD;
       Visual Studio JS Mobile Team&#xD;
   </author>
-  <content src="http://10.6.162.123:8100" original-src="index.html"/>
+  <content src="index.html"/>
   <access origin="*"/>
   <allow-intent href="http://*/*"/>
   <allow-intent href="https://*/*"/>
