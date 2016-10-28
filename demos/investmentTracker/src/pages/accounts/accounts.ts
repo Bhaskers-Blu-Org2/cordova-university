@@ -3,7 +3,6 @@ import { Component, ViewChild } from '@angular/core';
 import { AlertController, App, ItemSliding, List, ModalController, NavController } from 'ionic-angular';
 import { AccountData } from '../../providers/account-data';
 import { AddAccountModal} from '../add-account-modal/add-account';
-import { ScheduleFilterPage } from '../schedule-filter/schedule-filter';
 import { AccountDetailPage } from '../account-detail/account-detail';
 import { UserData } from '../../providers/user-data';
 
@@ -68,23 +67,8 @@ export class AccountsPage {
     // TODO: Handle dismissal of modal
   }
 
-  presentFilter() {
-    let modal = this.modalCtrl.create(ScheduleFilterPage, this.excludeTracks);
-    modal.present();
-
-    modal.onDidDismiss((data: any[]) => {
-      if (data) {
-        this.excludeTracks = data;
-        this.updateAccounts();
-      }
-    });
-
-  }
-
-  goToAccountDetail(sessionData) {
-    // go to the session detail page
-    // and pass in the session data
-    this.navCtrl.push(AccountDetailPage, sessionData);
+  goToAccountDetail(accountData) {
+    this.navCtrl.push(AccountDetailPage, accountData);
   }
 
   addFavorite(slidingItem: ItemSliding, sessionData) {
