@@ -91,20 +91,29 @@ export class AccountData {
 
   getAccounts(): Promise<any[]> {
     return this.platform.ready().then(() => {
+      let savedAccounts = localStorage.getItem('accounts');
+      if (savedAccounts) {
+        console.log('accounts from cache')
+        return JSON.parse(savedAccounts);
+      }
       if (typeof WindowsAzure == "undefined") {
         return new Promise(resolve => {
           // We're using Angular Http provider to request the data,
           // then on the response it'll map the JSON data to a parsed JS object.
           // Next we process the data and resolve the promise with the new data.
           this.http.get('assets/data/data.json').subscribe(res => {
-            resolve(res.json().accounts);
+            let accounts = res.json().accounts;
+            localStorage.setItem('accounts', JSON.stringify(accounts));
+            resolve(accounts);
           });
         });
       } else {
         let accounts = this.getAzureClient().getTable("Accounts");
         return new Promise(resolve => {
           accounts.read().then((data) => {
-            resolve(this.processAccountData(data));
+            let accounts = this.processAccountData(data);
+            localStorage.setItem('accounts', JSON.stringify(accounts));
+            resolve(accounts);
           });
         });
       }
@@ -113,6 +122,11 @@ export class AccountData {
 
   getInvestments(accountId): Promise<any[]> {
     return this.platform.ready().then(() => {
+      let savedInvestments = localStorage.getItem('investments');
+      if (savedInvestments) {
+        console.log('investments from cache')
+        return JSON.parse(savedInvestments);
+      }
       if (typeof WindowsAzure == "undefined") {
         return new Promise(resolve => {
           // We're using Angular Http provider to request the data,
@@ -120,6 +134,7 @@ export class AccountData {
           // Next we process the data and resolve the promise with the new data.
           this.http.get('assets/data/data.json').subscribe(res => {
             this.data = res.json();
+            localStorage.setItem('investments', JSON.stringify(this.data.investments));
             resolve(this.data.investments);
           });
         });
@@ -127,7 +142,9 @@ export class AccountData {
         let investments = this.getAzureClient().getTable("Investments");
         return new Promise(resolve => {
           investments.read().then((data) => {
-            resolve(this.processInvestmentData(data));
+            let investments = this.processInvestmentData(data);
+            localStorage.setItem('investments', JSON.stringify(investments));
+            resolve(investments);
           });
         });
       }
