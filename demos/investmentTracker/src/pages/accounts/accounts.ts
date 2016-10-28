@@ -46,6 +46,7 @@ export class AccountsPage {
   doRefresh(refresher) {
     console.log('Begin async operation', refresher);
 
+    this.updateAccounts();
     //this.user.syncFavorites();
 
     setTimeout(() => {

@@ -14,6 +14,7 @@ export class AccountData {
     public user: UserData,
     public events: Events) {
   }
+
   getAzureClient() {
     if (!this.azureAppService) {
       this.azureAppService = new WindowsAzure.MobileServiceClient('https://tacoinvestmenttracker.azurewebsites.net');
@@ -29,9 +30,6 @@ export class AccountData {
   }
 
   private loginResponse(response: Microsoft.WindowsAzure.User) {
-    // this.setUsername(response.userId);
-    // this.userid = response.userId;
-    // this.loggedIn = true;
     this.events.publish('user:login');
   }
 
@@ -43,14 +41,43 @@ export class AccountData {
     return this.azureAppService.getTable("Accounts").insert(newAccount);
   }
 
-  processData(data: Array<any>) {
-    let output = { accounts: [], investments: [] };
+  addInvestment(investment: any) {
+    //TODO: Secure the investments table so that users can't hack the accountId
+    let newItem = {
+      "accountId": investment.accountId,
+      "symbol": investment.symbol,
+      "numberOfShares": investment.numberOfShares,
+      "purchaseDate": investment.purchaseDate,
+      "purchasePrice": investment.purchasePrice
+    };
+    return this.azureAppService.getTable("Investments").insert(newItem);
+  }
+
+  processAccountData(data: Array<any>) {
+    let output = [];
     data.forEach(account => {
-      output.accounts.push(
+      output.push(
         {
           id: account.id,
           name: account.name,
           type: account.type
+        }
+      )
+    });
+
+    return output;
+  }
+
+  processInvestmentData(data: Array<any>) {
+    let output = [];
+    data.forEach(item => {
+      output.push(
+        {
+          id: item.id,
+          symbol: item.symbol,
+          numberOfShares: item.numberOfShares,
+          purchasePrice: item.purchasePrice,
+          purchaseDate: item.purchaseDate
         }
       )
     });
@@ -72,7 +99,7 @@ export class AccountData {
       let accounts = this.getAzureClient().getTable("Accounts");
       return new Promise(resolve => {
         accounts.read().then((data) => {
-          resolve(this.processData(data).accounts);
+          resolve(this.processAccountData(data));
         });
       });
     }
@@ -93,7 +120,7 @@ export class AccountData {
       let investments = this.getAzureClient().getTable("Investments");
       return new Promise(resolve => {
         investments.read().then((data) => {
-          resolve(data);
+          resolve(this.processInvestmentData(data));
         });
       });
     }

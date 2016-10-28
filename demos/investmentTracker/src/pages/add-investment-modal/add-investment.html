@@ -1,0 +1,38 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons start>
+            <button ion-button (click)="dismiss()">Cancel</button>
+        </ion-buttons>
+
+        <ion-title>
+            Add Investment
+        </ion-title>
+
+        <ion-buttons end>
+            <button ion-button (click)="save()">Done</button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content class="outer-content">
+
+    <ion-list>
+        <ion-item>
+            <ion-label floating>Symbol</ion-label>
+            <ion-input type="text" [(ngModel)]="symbol"></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-label floating># of shares</ion-label>
+            <ion-input type="number" [(ngModel)]="numberOfShares"></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-label floating>Price</ion-label>
+            <ion-input type="number" [(ngModel)]="purchasePrice"></ion-input>
+        </ion-item>
+        <ion-item>
+            <ion-label floating>Purchase Date</ion-label>
+            <ion-datetime displayFormat="MMM DD YYY" [(ngModel)]="purchaseDate"></ion-datetime>
+        </ion-item>
+    </ion-list>
+
+</ion-content>

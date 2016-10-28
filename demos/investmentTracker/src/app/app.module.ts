@@ -9,6 +9,7 @@ import { LoginPage } from '../pages/login/login';
 import { SignupPage } from '../pages/signup/signup';
 import { AccountsPage } from '../pages/accounts/accounts';
 import { AddAccountModal } from '../pages/add-account-modal/add-account';
+import { AddInvestmentModal } from '../pages/add-investment-modal/add-investment';
 import { AccountDetailPage } from '../pages/account-detail/account-detail';
 import { ResearchPage } from '../pages/research/research';
 import { TabsPage } from '../pages/tabs/tabs';
@@ -23,6 +24,7 @@ import { UserData } from '../providers/user-data';
     LoginPage,
     AccountsPage,
     AddAccountModal,
+    AddInvestmentModal,
     AccountDetailPage,
     ResearchPage,
     SignupPage,
@@ -38,6 +40,7 @@ import { UserData } from '../providers/user-data';
     LoginPage,
     AccountsPage,
     AddAccountModal,
+    AddInvestmentModal,
     AccountDetailPage,
     ResearchPage,
     SignupPage,

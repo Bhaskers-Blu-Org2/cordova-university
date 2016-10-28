@@ -40,7 +40,7 @@ export class ConferenceApp {
     { title: 'Login', component: LoginPage, icon: 'log-in' },
     { title: 'Signup', component: SignupPage, icon: 'person-add' }
   ];
-  rootPage: any = TabsPage;
+  rootPage: any;
   // rootPage: any = LoginPage;
 
   constructor(
@@ -55,8 +55,8 @@ export class ConferenceApp {
       // StatusBar.styleDefault();
       // Splashscreen.hide();
       confData.login();
+      this.rootPage = TabsPage;
     });
-
 
     // decide which menu items should be hidden by current login status stored in local storage
     this.userData.hasLoggedIn().then((hasLoggedIn) => {
