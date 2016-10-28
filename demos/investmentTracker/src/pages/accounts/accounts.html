@@ -32,47 +32,35 @@
         </ion-refresher-content>
     </ion-refresher>
 
-  <ion-list #accountList [hidden]="shownSessions === 0">
+<ion-list #accountList>
+	<ion-item-sliding *ngFor="let account of accounts" #slidingItem>
 
-    <ion-item-group *ngFor="let group of groups" [hidden]="group.hide">
-
-      <ion-item-divider sticky>
-        <ion-label>
-          {{group.time}}
-        </ion-label>
-      </ion-item-divider>
-
-      <ion-item-sliding *ngFor="let session of group.sessions" #slidingItem [attr.track]="session.tracks[0] | lowercase" [hidden]="session.hide">
-
-        <button ion-item (click)="goToSessionDetail(session)">
+		<button ion-item (click)="goToAccountDetail(account)">
           <h3>
-            <ion-icon name="ios-star-outline" [hidden]="!session.favorite"></ion-icon> 
-            {{session.name}}
+            <ion-icon name="ios-star-outline" [hidden]="!account.favorite"></ion-icon> 
+            {{account.name}}
           </h3>
           <p>
-            {{session.timeStart}} &mdash;
-            {{session.timeEnd}}:
-            {{session.location}}
+            {{account.id}} &mdash;
+            {{account.type}}
           </p>
         </button>
 
-        <ion-item-options>
-          <button ion-button color="favorite" (click)="addFavorite(slidingItem, session)" *ngIf="segment === 'all'">
+		<ion-item-options>
+			<button ion-button color="favorite" (click)="addFavorite(slidingItem, session)" *ngIf="segment === 'all'">
             Favorite
           </button>
-          <button ion-button color="danger" (click)="removeFavorite(slidingItem, session, 'Remove Favorite')" *ngIf="segment === 'favorites'">
+			<button ion-button color="danger" (click)="removeFavorite(slidingItem, session, 'Remove Favorite')" *ngIf="segment === 'favorites'">
             Remove
           </button>
-        </ion-item-options>
+		</ion-item-options>
 
-      </ion-item-sliding>
+	</ion-item-sliding>
+</ion-list>
 
-    </ion-item-group>
-
-  </ion-list>
-
-  <ion-list-header [hidden]="shownSessions > 0">
+  <ion-list-header [hidden]="accounts.length">
       No accounts found
+      {{accounts}}
   </ion-list-header>
 
 
