@@ -4,18 +4,27 @@ import { Http } from '@angular/http';
 import { Events, Platform } from 'ionic-angular';
 import { UserData } from './user-data';
 
+import {SecureStorage} from 'ionic-native';
+
 
 @Injectable()
 export class AccountData {
   data: any;
   azureAppService: Microsoft.WindowsAzure.MobileServiceClient;
+  secureStorage = new SecureStorage();
 
   constructor(
     public http: Http,
     public user: UserData,
     public events: Events,
     public platform: Platform
-  ) { }
+  ) {
+    this.platform.ready().then(() => {
+      if (window['cordova']) {
+        this.secureStorage.create('investmentTracker')
+      }
+    });
+  }
 
   getAzureClient() {
     if (!this.azureAppService) {
@@ -91,12 +100,12 @@ export class AccountData {
 
   getAccounts(): Promise<any[]> {
     return this.platform.ready().then(() => {
-      let savedAccounts = localStorage.getItem('accounts');
-      if (savedAccounts) {
-        console.log('accounts from cache')
-        return JSON.parse(savedAccounts);
-      }
       if (typeof WindowsAzure == "undefined") {
+        let savedAccounts = localStorage.getItem('accounts');
+        if (savedAccounts) {
+          console.log('accounts from cache')
+          return JSON.parse(savedAccounts);
+        }
         return new Promise(resolve => {
           // We're using Angular Http provider to request the data,
           // then on the response it'll map the JSON data to a parsed JS object.
@@ -108,26 +117,29 @@ export class AccountData {
           });
         });
       } else {
-        let accounts = this.getAzureClient().getTable("Accounts");
-        return new Promise(resolve => {
-          accounts.read().then((data) => {
-            let accounts = this.processAccountData(data);
-            localStorage.setItem('accounts', JSON.stringify(accounts));
-            resolve(accounts);
+        return this.secureStorage.get('accounts').then(data => data)
+        .catch(err => {
+          let accounts = this.getAzureClient().getTable("Accounts");
+          return new Promise(resolve => {
+            accounts.read().then((data) => {
+              let accounts = this.processAccountData(data);
+              this.secureStorage.set('accounts', JSON.stringify(accounts));
+              resolve(accounts);
+            });
           });
-        });
+        })
       }
     });
   }
 
   getInvestments(accountId): Promise<any[]> {
     return this.platform.ready().then(() => {
-      let savedInvestments = localStorage.getItem('investments');
-      if (savedInvestments) {
-        console.log('investments from cache')
-        return JSON.parse(savedInvestments);
-      }
       if (typeof WindowsAzure == "undefined") {
+        let savedInvestments = localStorage.getItem('investments');
+        if (savedInvestments) {
+          console.log('investments from cache')
+          return JSON.parse(savedInvestments);
+        }
         return new Promise(resolve => {
           // We're using Angular Http provider to request the data,
           // then on the response it'll map the JSON data to a parsed JS object.
@@ -139,12 +151,15 @@ export class AccountData {
           });
         });
       } else {
-        let investments = this.getAzureClient().getTable("Investments");
-        return new Promise(resolve => {
-          investments.read().then((data) => {
-            let investments = this.processInvestmentData(data);
-            localStorage.setItem('investments', JSON.stringify(investments));
-            resolve(investments);
+        return this.secureStorage.get('investments').then(data => data)
+        .catch(err => {
+          let investments = this.getAzureClient().getTable("Investments");
+          return new Promise(resolve => {
+            investments.read().then((data) => {
+              let investments = this.processInvestmentData(data);
+              this.secureStorage.set('investments', JSON.stringify(investments));
+              resolve(investments);
+            });
           });
         });
       }
