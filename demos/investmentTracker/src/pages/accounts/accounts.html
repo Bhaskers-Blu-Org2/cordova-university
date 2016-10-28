@@ -35,6 +35,6 @@
 	</ion-list>
 
 	<ion-list-header [hidden]="accounts.length">
-		No accounts found
+		{{ user.loggedIn ? 'No accounts found' : 'Log in to view accounts' }}
 	</ion-list-header>
 </ion-content>

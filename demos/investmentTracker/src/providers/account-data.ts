@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 
-import { Events } from 'ionic-angular';
+import { Events, Platform } from 'ionic-angular';
 import { UserData } from './user-data';
 
 
@@ -10,10 +10,12 @@ export class AccountData {
   data: any;
   azureAppService: Microsoft.WindowsAzure.MobileServiceClient;
 
-  constructor(public http: Http,
+  constructor(
+    public http: Http,
     public user: UserData,
-    public events: Events) {
-  }
+    public events: Events,
+    public platform: Platform
+  ) { }
 
   getAzureClient() {
     if (!this.azureAppService) {
@@ -23,10 +25,12 @@ export class AccountData {
   }
 
   login() {
-    // Only enforce login when on an actual device
-    if (typeof WindowsAzure !== "undefined") {
-      this.getAzureClient().login("aad").done(this.loginResponse.bind(this));
-    }
+    this.platform.ready().then(() => {
+      // Only enforce login when on an actual device
+      if (typeof WindowsAzure !== "undefined") {
+        this.getAzureClient().login("aad").done(this.loginResponse.bind(this));
+      }
+    })
   }
 
   private loginResponse(response: Microsoft.WindowsAzure.User) {
@@ -86,44 +90,48 @@ export class AccountData {
   }
 
   getAccounts(): Promise<any[]> {
-    if (typeof WindowsAzure == "undefined") {
-      return new Promise(resolve => {
-        // We're using Angular Http provider to request the data,
-        // then on the response it'll map the JSON data to a parsed JS object.
-        // Next we process the data and resolve the promise with the new data.
-        this.http.get('assets/data/data.json').subscribe(res => {
-          resolve(res.json().accounts);
+    return this.platform.ready().then(() => {
+      if (typeof WindowsAzure == "undefined") {
+        return new Promise(resolve => {
+          // We're using Angular Http provider to request the data,
+          // then on the response it'll map the JSON data to a parsed JS object.
+          // Next we process the data and resolve the promise with the new data.
+          this.http.get('assets/data/data.json').subscribe(res => {
+            resolve(res.json().accounts);
+          });
         });
-      });
-    } else {
-      let accounts = this.getAzureClient().getTable("Accounts");
-      return new Promise(resolve => {
-        accounts.read().then((data) => {
-          resolve(this.processAccountData(data));
+      } else {
+        let accounts = this.getAzureClient().getTable("Accounts");
+        return new Promise(resolve => {
+          accounts.read().then((data) => {
+            resolve(this.processAccountData(data));
+          });
         });
-      });
-    }
+      }
+    });
   }
 
   getInvestments(accountId): Promise<any[]> {
-    if (typeof WindowsAzure == "undefined") {
-      return new Promise(resolve => {
-        // We're using Angular Http provider to request the data,
-        // then on the response it'll map the JSON data to a parsed JS object.
-        // Next we process the data and resolve the promise with the new data.
-        this.http.get('assets/data/data.json').subscribe(res => {
-          this.data = res.json();
-          resolve(this.data.investments);
+    return this.platform.ready().then(() => {
+      if (typeof WindowsAzure == "undefined") {
+        return new Promise(resolve => {
+          // We're using Angular Http provider to request the data,
+          // then on the response it'll map the JSON data to a parsed JS object.
+          // Next we process the data and resolve the promise with the new data.
+          this.http.get('assets/data/data.json').subscribe(res => {
+            this.data = res.json();
+            resolve(this.data.investments);
+          });
         });
-      });
-    } else {
-      let investments = this.getAzureClient().getTable("Investments");
-      return new Promise(resolve => {
-        investments.read().then((data) => {
-          resolve(this.processInvestmentData(data));
+      } else {
+        let investments = this.getAzureClient().getTable("Investments");
+        return new Promise(resolve => {
+          investments.read().then((data) => {
+            resolve(this.processInvestmentData(data));
+          });
         });
-      });
-    }
+      }
+    })
   }
 
 }
