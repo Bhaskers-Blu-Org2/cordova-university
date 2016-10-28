@@ -23,7 +23,7 @@ export class AccountsPage {
   segment = 'all';
   excludeTracks = [];
   shownSessions: any = [];
-  groups = [];
+  accounts = [];
 
   constructor(
     public alertCtrl: AlertController,
@@ -58,12 +58,7 @@ export class AccountsPage {
   updateAccounts() {
     // Close any open sliding items when the schedule updates
     this.accountList && this.accountList.closeSlidingItems();
-
-    this.confData.getTimeline(this.dayIndex, this.queryText, this.excludeTracks, this.segment).then(data => {
-
-      this.shownSessions = data.shownSessions;
-      this.groups = data.groups;
-    });
+    this.confData.getAccounts().then(accounts => this.accounts = accounts);
   }
 
   addAccount() {
@@ -86,7 +81,7 @@ export class AccountsPage {
 
   }
 
-  goToSessionDetail(sessionData) {
+  goToAccountDetail(sessionData) {
     // go to the session detail page
     // and pass in the session data
     this.navCtrl.push(AccountDetailPage, sessionData);
