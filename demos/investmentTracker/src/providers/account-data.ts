@@ -23,7 +23,7 @@ export class AccountData {
 
   login() {
     // Only enforce login when on an actual device
-    if (WindowsAzure) {
+    if (typeof(WindowsAzure) !== "undefined") {
       this.getAzureClient().login("aad").done(this.loginResponse.bind(this));
     }
   }
