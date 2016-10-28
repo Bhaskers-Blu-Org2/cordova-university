@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 
-import { AlertController, App, ItemSliding, List, ModalController, NavController } from 'ionic-angular';
+import { AlertController, App, Events, List, ModalController, NavController } from 'ionic-angular';
 import { AccountData } from '../../providers/account-data';
 import { AddAccountModal} from '../add-account-modal/add-account';
 import { AccountDetailPage } from '../account-detail/account-detail';
@@ -30,9 +30,10 @@ export class AccountsPage {
     public modalCtrl: ModalController,
     public navCtrl: NavController,
     public accountData: AccountData,
-    public user: UserData
+    public user: UserData,
+    public events: Events
   ) {
-
+    this.events.subscribe('user:login', this.updateAccounts);
   }
 
   ionViewDidEnter() {
@@ -40,13 +41,14 @@ export class AccountsPage {
   }
 
   ngAfterViewInit() {
-    this.updateAccounts();
+    //this.updateAccounts();
   }
 
   doRefresh(refresher) {
     console.log('Begin async operation', refresher);
 
     //this.user.syncFavorites();
+    this.updateAccounts().then(refresher.complete);
 
     setTimeout(() => {
       console.log('Async operation has ended');
@@ -57,7 +59,7 @@ export class AccountsPage {
   updateAccounts() {
     // Close any open sliding items when the schedule updates
     this.accountList && this.accountList.closeSlidingItems();
-    this.accountData.getAccounts().then(accounts => this.accounts = accounts);
+    return this.accountData.getAccounts().then(accounts => this.accounts = accounts);
   }
 
   addAccount() {
@@ -71,61 +73,4 @@ export class AccountsPage {
     this.navCtrl.push(AccountDetailPage, accountData);
   }
 
-  addFavorite(slidingItem: ItemSliding, sessionData) {
-    sessionData.favorite = true;
-    if (this.user.hasFavorite(sessionData.name)) {
-      // woops, they already favorited it! What shall we do!?
-      // prompt them to remove it
-      this.removeFavorite(slidingItem, sessionData, 'Favorite already added');
-    } else {
-      // remember this session as a user favorite
-      this.user.addFavorite(sessionData.name);
-
-      // create an alert instance
-      let alert = this.alertCtrl.create({
-        title: 'Favorite Added',
-        buttons: [{
-          text: 'OK',
-          handler: () => {
-            // close the sliding item
-            slidingItem.close();
-          }
-        }]
-      });
-      // now present the alert on top of all other content
-      alert.present();
-    }
-
-  }
-
-  removeFavorite(slidingItem: ItemSliding, sessionData, title) {
-    sessionData.favorite = false;
-    let alert = this.alertCtrl.create({
-      title: title,
-      message: 'Would you like to remove this session from your favorites?',
-      buttons: [
-        {
-          text: 'Cancel',
-          handler: () => {
-            // they clicked the cancel button, do not remove the session
-            // close the sliding item and hide the option buttons
-            slidingItem.close();
-          }
-        },
-        {
-          text: 'Remove',
-          handler: () => {
-            // they want to remove this session from their favorites
-            this.user.removeFavorite(sessionData.name);
-            this.updateAccounts();
-
-            // close the sliding item and hide the option buttons
-            slidingItem.close();
-          }
-        }
-      ]
-    });
-    // now present the alert on top of all other content
-    alert.present();
-  }
 }
