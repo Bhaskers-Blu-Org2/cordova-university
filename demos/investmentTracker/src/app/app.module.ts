@@ -5,15 +5,12 @@ import { Storage } from '@ionic/storage';
 
 import { ConferenceApp } from './app.component';
 
-import { AboutPage } from '../pages/about/about';
-import { PopoverPage } from '../pages/about-popover/about-popover';
-import { AccountPage } from '../pages/account/account';
 import { LoginPage } from '../pages/login/login';
+import { SignupPage } from '../pages/signup/signup';
 import { AccountsPage } from '../pages/accounts/accounts';
 import { AddAccountModal } from '../pages/add-account-modal/add-account';
-import { ScheduleFilterPage } from '../pages/schedule-filter/schedule-filter';
 import { AccountDetailPage } from '../pages/account-detail/account-detail';
-import { SignupPage } from '../pages/signup/signup';
+import { ResearchPage } from '../pages/research/research';
 import { TabsPage } from '../pages/tabs/tabs';
 import { AccountData } from '../providers/account-data';
 import { UserData } from '../providers/user-data';
@@ -22,14 +19,12 @@ import { UserData } from '../providers/user-data';
 @NgModule({
   declarations: [
     ConferenceApp,
-    AboutPage,
-    AccountPage,
+    AccountsPage,
     LoginPage,
-    PopoverPage,
     AccountsPage,
     AddAccountModal,
-    ScheduleFilterPage,
     AccountDetailPage,
+    ResearchPage,
     SignupPage,
     TabsPage
   ],
@@ -39,14 +34,12 @@ import { UserData } from '../providers/user-data';
   bootstrap: [IonicApp],
   entryComponents: [
     ConferenceApp,
-    AboutPage,
-    AccountPage,
+    AccountsPage,
     LoginPage,
-    PopoverPage,
     AccountsPage,
     AddAccountModal,
-    ScheduleFilterPage,
     AccountDetailPage,
+    ResearchPage,
     SignupPage,
     TabsPage
   ],

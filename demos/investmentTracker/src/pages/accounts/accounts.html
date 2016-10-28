@@ -1,67 +1,44 @@
 <ion-header>
-  <ion-navbar no-border-bottom>
-    <button ion-button menuToggle>
+	<ion-navbar no-border-bottom>
+		<button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
 
-    <ion-buttons end>
-      <button ion-button icon-only (click)="presentFilter()">
-        <ion-icon ios="ios-options-outline" md="md-options"></ion-icon>
-      </button>
-    </ion-buttons>
-  </ion-navbar>
+		<ion-buttons end>
+		</ion-buttons>
+	</ion-navbar>
 
-  <ion-toolbar no-border-top>
-    <ion-searchbar color="primary"
-                   [(ngModel)]="queryText"
-                   (ionInput)="updateAccounts()"
-                   placeholder="Search">
-    </ion-searchbar>
-  </ion-toolbar>
+	<ion-toolbar no-border-top>
+		<ion-searchbar color="primary" [(ngModel)]="queryText" (ionInput)="updateAccounts()" placeholder="Search">
+		</ion-searchbar>
+	</ion-toolbar>
 </ion-header>
 
 <ion-content>
-    <ion-fab right bottom>
-        <button ion-fab color="primary" (click)="addAccount()"><ion-icon name="add"></ion-icon></button>
-    </ion-fab>
-    <ion-refresher (ionRefresh)="doRefresh($event)">
-        <ion-refresher-content pullingIcon="arrow-dropdown"
-                               pullingText="Pull to refresh"
-                               refreshingSpinner="circles"
-                               refreshingText="Refreshing...">
-        </ion-refresher-content>
-    </ion-refresher>
+	<ion-fab right bottom>
+		<button ion-fab color="primary" (click)="addAccount()"><ion-icon name="add"></ion-icon></button>
+	</ion-fab>
+	<ion-refresher (ionRefresh)="doRefresh($event)">
+		<ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Pull to refresh" refreshingSpinner="circles" refreshingText="Refreshing...">
+		</ion-refresher-content>
+	</ion-refresher>
 
-<ion-list #accountList>
-	<ion-item-sliding *ngFor="let account of accounts" #slidingItem>
+	<ion-list #accountList>
+		<ion-item-sliding *ngFor="let account of accounts" #slidingItem>
+      <button ion-item (click)="goToAccountDetail(account)">
+        <h3>
+          <ion-icon name="ios-star-outline" [hidden]="!account.favorite"></ion-icon> 
+          {{account.name}}
+        </h3>
+        <p>
+          {{account.id}} &mdash;
+          {{account.type}}
+        </p>
+      </button>
+		</ion-item-sliding>
+	</ion-list>
 
-		<button ion-item (click)="goToAccountDetail(account)">
-          <h3>
-            <ion-icon name="ios-star-outline" [hidden]="!account.favorite"></ion-icon> 
-            {{account.name}}
-          </h3>
-          <p>
-            {{account.id}} &mdash;
-            {{account.type}}
-          </p>
-        </button>
-
-		<ion-item-options>
-			<button ion-button color="favorite" (click)="addFavorite(slidingItem, session)" *ngIf="segment === 'all'">
-            Favorite
-          </button>
-			<button ion-button color="danger" (click)="removeFavorite(slidingItem, session, 'Remove Favorite')" *ngIf="segment === 'favorites'">
-            Remove
-          </button>
-		</ion-item-options>
-
-	</ion-item-sliding>
-</ion-list>
-
-  <ion-list-header [hidden]="accounts.length">
-      No accounts found
-      {{accounts}}
-  </ion-list-header>
-
-
+	<ion-list-header [hidden]="accounts.length">
+		No accounts found
+	</ion-list-header>
 </ion-content>
