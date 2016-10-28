@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, NgZone } from '@angular/core';
 
 import { NavParams, ModalController } from 'ionic-angular';
 
@@ -15,14 +15,17 @@ export class AccountDetailPage {
 
   constructor(public navParams: NavParams,
     public accountData: AccountData,
-    public modalCtrl: ModalController) {
+    public modalCtrl: ModalController,
+    public zone: NgZone) {
     this.account = navParams.data;
     this.updateInvestments();
   }
 
   updateInvestments() {
     this.accountData.getInvestments(this.account.id).then(investments => {
-      this.investments = investments.filter(investment => investment.accountId === this.account.id);
+      this.zone.run(() => {
+        this.investments = investments.filter(investment => investment.accountId === this.account.id);
+      })
     })
   }
 

@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, NgZone } from '@angular/core';
 
 import { AlertController, App, Events, List, ModalController, NavController } from 'ionic-angular';
 import { AccountData } from '../../providers/account-data';
@@ -31,7 +31,8 @@ export class AccountsPage {
     public navCtrl: NavController,
     public accountData: AccountData,
     public user: UserData,
-    public events: Events
+    public events: Events,
+    public zone: NgZone
   ) {
     this.events.subscribe('user:login', this.updateAccounts.bind(this));
   }
@@ -51,7 +52,11 @@ export class AccountsPage {
   updateAccounts() {
     // Close any open sliding items when the schedule updates
     this.accountList && this.accountList.closeSlidingItems();
-    return this.accountData.getAccounts().then(accounts => this.accounts = accounts);
+    return this.accountData.getAccounts().then(accounts => {
+      this.zone.run(() => {
+        this.accounts = accounts
+      })
+    });
   }
 
   addAccount() {
