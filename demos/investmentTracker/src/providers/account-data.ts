@@ -87,6 +87,7 @@ export class AccountData {
       output.push(
         {
           id: item.id,
+          accountId: item.accountId,
           symbol: item.symbol,
           numberOfShares: item.numberOfShares,
           purchasePrice: item.purchasePrice,
@@ -117,7 +118,7 @@ export class AccountData {
           });
         });
       } else {
-        return this.secureStorage.get('accounts').then(data => data)
+        return this.secureStorage.get('accounts').then(data => JSON.parse(data))
         .catch(err => {
           let accounts = this.getAzureClient().getTable("Accounts");
           return new Promise(resolve => {
@@ -151,7 +152,7 @@ export class AccountData {
           });
         });
       } else {
-        return this.secureStorage.get('investments').then(data => data)
+        return this.secureStorage.get('investments').then(data => JSON.parse(data))
         .catch(err => {
           let investments = this.getAzureClient().getTable("Investments");
           return new Promise(resolve => {
