@@ -33,7 +33,7 @@ export class AccountsPage {
     public user: UserData,
     public events: Events
   ) {
-    this.events.subscribe('user:login', this.updateAccounts);
+    this.events.subscribe('user:login', this.updateAccounts.bind(this));
   }
 
   ionViewDidEnter() {
@@ -45,16 +45,7 @@ export class AccountsPage {
   }
 
   doRefresh(refresher) {
-    console.log('Begin async operation', refresher);
-
-    this.updateAccounts();
-    //this.user.syncFavorites();
-    this.updateAccounts().then(refresher.complete);
-
-    setTimeout(() => {
-      console.log('Async operation has ended');
-      refresher.complete();
-    }, 2000);
+    this.updateAccounts().then(refresher.complete.bind(refresher));
   }
 
   updateAccounts() {
