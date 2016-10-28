@@ -1,21 +1,14 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>Account</ion-title>
+    <ion-title>{{account.name}}</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  <h1>{{session.name}}</h1>
-
-  <h4 *ngFor="let speaker of session.speakers">
-    {{speaker.name}}
-  </h4>
-
-  <p>
-    {{session.timeStart}} - {{session.timeEnd}}
-  </p>
-
-  <p>{{session.location}}</p>
-
-  <p>{{session.description}}</p>
+  <ion-item *ngFor="let investment of investments">
+    Symbol: {{investment.symbol}}
+    Number of Shares: {{investment.Number}}
+    Purchase Price: {{investment.purchasePrice}}
+    Purchase Date: {{investment.purchaseDate}}
+  </ion-item>
 </ion-content>
